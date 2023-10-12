@@ -1,0 +1,15 @@
+body {
+    display: flex;
+    flex-wrap: wrap;
+    /* Permite que los elementos se envuelvan cuando no hay suficiente espacio */
+}
+
+#configuracion {
+    flex: 1;
+    /* Ocupa todo el ancho disponible (izquierda) */
+}
+
+#canvasContainer {
+    flex: 1;
+    /* Ocupa todo el ancho disponible (derecha o debajo, según el espacio) */
+}
