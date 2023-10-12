@@ -6,5 +6,6 @@ Para ejecutar el codigo simplemente abra el archivo index.html en el navegador, 
 
 
 Puede cambiar entre circulos o cuadrados (Habrá más formas en proximas actualizaciones)
-![image](https://github.com/CesarFRR/protector-de-pantalla-p5.js-html-css-js/assets/113662799/9433f9b7-f0d1-45aa-9a51-500fae11cac0)
-![image](https://github.com/CesarFRR/protector-de-pantalla-p5.js-html-css-js/assets/113662799/e747dc74-cb88-4541-b3e2-1622310a585e)
+![image](https://github.com/CesarFRR/protector-de-pantalla-p5.js-html-css-js/assets/113662799/f1727b0c-0d4b-44a5-b71e-c832845088fa)
+![image](https://github.com/CesarFRR/protector-de-pantalla-p5.js-html-css-js/assets/113662799/2888b853-fc0f-41d2-af7e-b5690f6ba2c2)
+
