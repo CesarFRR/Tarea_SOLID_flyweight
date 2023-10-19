@@ -1,191 +1,83 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <title>Tarea_Jueves</title>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
-    <style>
-      body {
-        display: flex;
-        flex-wrap: wrap;
-        /* Permite que los elementos se envuelvan cuando no hay suficiente espacio */
-      }
+<head>
+  <meta charset="utf-8" />
+  <title>Tarea_Jueves</title>
 
-      #configuracion {
-        flex: 1;
-        /* Ocupa todo el ancho disponible (izquierda) */
-      }
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+  <style>
+    body {
+      display: flex;
+      flex-wrap: wrap;
+      /* Permite que los elementos se envuelvan cuando no hay suficiente espacio */
+    }
 
-      #canvasContainer {
-        flex: 1;
-        /* Ocupa todo el ancho disponible (derecha o debajo, según el espacio) */
-      }
-    </style>
-  </head>
+    #configuracion {
+      flex: 1;
+      /* Ocupa todo el ancho disponible (izquierda) */
+    }
 
-  <body>
-    <div id="configuracion">
-      <div>
-        <h3>Configuración del protector de pantalla</h3>
-      </div>
-      <div>
-        <label for="sizeSlider">Tamaño de las figuras:</label>
-        <input
-          type="range"
-          id="sizeSlider"
-          min="10"
-          max="50"
-          step="1"
-          value="20"
-        />
-        <span id="sizeValue">20</span>
-        
-      </div>
-      <div>
-        <label for="colorInput">Color de Relleno:</label>
-        <input type="color" id="colorInput" value="#6495ED" />
-        <span id="colorValue">#6495ED</span>
-        
-      </div>
-      <div>
-        <label for="strokeWeightSlider">Grosor de Línea:</label>
-        <input
-          type="range"
-          id="strokeWeightSlider"
-          min="0"
-          max="5"
-          step="1"
-          value="2"
-        />
-        <span id="strokeWeightValue">2</span>
-        
-      </div>
-      <div>
-        <label for="numShapesInput">Número de figuras:</label>
-        <input
-          type="number"
-          id="numShapesInput"
-          min="1"
-          max="100"
-          step="1"
-          value="50"
-        />
-      </div>
-      <div>
-        <label for="shapeType">Tipo de figuras:</label>
-        <select name="shapeType" id="shapeType">
-          <option value="Square">Cuadrados</option>
-          <option value="Bubble" selected>Burbujas</option>
-        </select>
-      </div>
-      <br />
+    #canvasContainer {
+      flex: 1;
+      /* Ocupa todo el ancho disponible (derecha o debajo, según el espacio) */
+    }
+  </style>
+</head>
+
+<body>
+  <div id="configuracion">
+    <div>
+      <h3>Configuración del protector de pantalla</h3>
     </div>
-    <div id="canvasContainer">
-      <!-- El canvas de p5.js se generará automáticamente aquí -->
+    <div>
+      <label for="sizeSlider">Tamaño de las figuras:</label>
+      <input type="range" id="sizeSlider" min="10" max="50" step="1" value="20" />
+      <span id="sizeValue">20</span>
+
     </div>
-    <script>
-      // Project functions
+    <div>
+      <label for="colorInput">Color de Relleno:</label>
+      <input type="color" id="colorInput" value="#6495ED" />
+      <span id="colorValue">#6495ED</span>
 
-      /** La clase ShapeManager es una clase de JavaScript que administra una lista de formas y almacena
-       *atributos comunes. */
-      class ShapeManager {
-        static shapesList = []
-        static commonAttributes
-      }
+    </div>
+    <div>
+      <label for="strokeWeightSlider">Grosor de Línea:</label>
+      <input type="range" id="strokeWeightSlider" min="0" max="5" step="1" value="2" />
+      <span id="strokeWeightValue">2</span>
 
-      /** La clase Shape es una clase de forma básica en JavaScript que se inicializa con los atributos comunes para todos,
-       *además de ser la implementación de el patrón de diseño FlyWieght actuando como clase liviana conteniendo atributos estaticos
-       *al mismo tiempo que actúa como clase padre para las diferentes figuras */
-      class Shape {
-        static size
-        static color
-        static strokeWeight
-        static originX
-        static originY
-        static init(attributes) {
-          this.size = attributes.size
-          this.color = attributes.fillColor
-          this.strokeWeight = attributes.strokeWeight
-          this.originX = attributes.originX
-          this.originY = attributes.originY
-        }
-
-        update() {}
-        display() {}
-      }
-
-      /**  La clase Bubble representa una forma que se mueve por la pantalla y rebota en los bordes. */
-      class Bubble extends Shape {
-        x
-        y
-        constructor() {
-          super()
-          this.x = Shape.originX
-          this.y = Shape.originY
-          this.dx = random(-2, 2)
-          this.dy = random(-2, 2)
-        }
-
-        update() {
-          this.x += this.dx
-          this.y += this.dy
-
-          if (this.x < 0 || this.x > width) {
-            this.dx *= -1
-          }
-
-          if (this.y < 0 || this.y > height) {
-            this.dy *= -1
-          }
-        }
-
-        display() {
-          stroke(255)
-          strokeWeight(Shape.strokeWeight)
-          fill(Shape.color)
-          ellipse(this.x, this.y, Shape.size * 2)
-        }
-      }
-
-      /** La clase Cuadrado extiende la clase Forma y representa una forma cuadrada que se puede actualizar y
-       *mostrar en un lienzo, ademnás de moverse por la pantalla y rebotar en los bordes.  */
-      class Square extends Shape {
-        x
-        y
-        constructor() {
-          super()
-          this.x = Shape.originX
-          this.y = Shape.originY
-          this.dx = random(-2, 2)
-          this.dy = random(-2, 2)
-        }
-
-        update() {
-          this.x += this.dx
-          this.y += this.dy
-
-          if (this.x < 0 || this.x > width) {
-            this.dx *= -1
-          }
-
-          if (this.y < 0 || this.y > height) {
-            this.dy *= -1
-          }
-        }
-
-        display() {
-          stroke(255)
-          strokeWeight(Shape.strokeWeight)
-          fill(Shape.color)
-          square(this.x, this.y, Shape.size * 2)
-        }
-      }
-
+    </div>
+    <div>
+      <label for="numShapesInput">Número de figuras:</label>
+      <input type="number" id="numShapesInput" min="1" max="100" step="1" value="50" />
+    </div>
+    <div>
+      <label for="shapeType">Tipo de figuras:</label>
+      <select name="shapeType" id="shapeType">
+        <option value="Square">Cuadrados</option>
+        <option value="Bubble" selected>Burbujas</option>
+      </select>
+    </div>
+    <br />
+  </div>
+  <div id="canvasContainer">
+    <!-- El canvas de p5.js se generará automáticamente aquí -->
+  </div>
+  <script>
+    // Elementos del proyecto
+    /** La clase ShapeManager es una clase de JavaScript que administra una lista de formas y almacena
+     *atributos comunes. */
+    class ShapeManager {
+      static shapesList = []
+      static commonAttributes
+    }
+    /* La clase ShapeCreator crea una cantidad específica de formas según el tipo de forma. */
+    class ShapeCreator {
       /**
        * La función crea un número específico de formas de acuerdo al tipo de forma
        */
-      function createShapes() {
+      static createShapes() {
         Shape.init(ShapeManager.commonAttributes)
         ShapeManager.shapesList = []
         for (let i = 0; i < ShapeManager.commonAttributes.numBubbles; i++) {
@@ -194,80 +86,172 @@
           )
         }
       }
-      // DOM functions (HTML)
-      /**
-       * La función `setupUI` configura detectores de eventos para detectar cambios en los controles de
-       * entrada y llama a la función `updateConfiguration` cuando se detecta un cambio.
-       */
-      function setupUI() {
-        const numShapesInput = document.getElementById('numShapesInput')
-        const sizeSlider = document.getElementById('sizeSlider')
-        const colorInput = document.getElementById('colorInput')
-        const strokeWeightSlider = document.getElementById('strokeWeightSlider')
-        const typeInput = document.getElementById('shapeType')
-        // Agregar eventos para detectar cambios en los controles de entrada
-        numShapesInput.addEventListener('input', updateConfiguration)
-        sizeSlider.addEventListener('input', updateConfiguration)
-        colorInput.addEventListener('input', updateConfiguration)
-        strokeWeightSlider.addEventListener('input', updateConfiguration)
-        typeInput.addEventListener('input', updateConfiguration)
+    }
+
+    /** La clase Shape es una clase de forma básica en JavaScript que se inicializa con los atributos comunes para todos,
+     *además de ser la implementación de el patrón de diseño FlyWieght actuando como clase liviana conteniendo atributos estaticos
+     *al mismo tiempo que actúa como clase padre para las diferentes figuras */
+    class Shape {
+      static size
+      static color
+      static strokeWeight
+      static originX
+      static originY
+      static init(attributes) {
+        this.size = attributes.size
+        this.color = attributes.fillColor
+        this.strokeWeight = attributes.strokeWeight
+        this.originX = attributes.originX
+        this.originY = attributes.originY
       }
 
-      /**
-       * La función "updateConfiguration" actualiza la configuración recuperando atributos comunes y creando las
-       * formas.
-       */
-      function updateConfiguration() {
-        ShapeManager.commonAttributes = getCommonAttributes()
-        createShapes()
+      update() { }
+      display() { }
+    }
+
+    /**  La clase Bubble representa una forma que se mueve por la pantalla y rebota en los bordes. */
+    class Bubble extends Shape {
+      x
+      y
+      constructor() {
+        super()
+        this.x = Shape.originX
+        this.y = Shape.originY
+        this.dx = random(-2, 2)
+        this.dy = random(-2, 2)
       }
 
-      /**
-       * La función `getCommonAttributes` recupera los atributos comunes del HTML para crear formas, como tamaño,
-       * color, grosor del trazo, número de formas, coordenadas de origen y tipo de forma.
-       * @returns un objeto con las propiedades:
-       */
-      function getCommonAttributes() {
-        const sizeSlider = document.getElementById('sizeSlider')
-        const colorInput = document.getElementById('colorInput')
-        const strokeWeightSlider = document.getElementById('strokeWeightSlider')
-        const numShapesInput = document.getElementById('numShapesInput')
-        const ShapeType = document.getElementById('shapeType')
+      update() {
+        this.x += this.dx
+        this.y += this.dy
 
-        document.getElementById('sizeValue').textContent = sizeSlider.value
-        document.getElementById('colorValue').textContent = colorInput.value
-        document.getElementById('strokeWeightValue').textContent =
-          strokeWeightSlider.value
+        if (this.x < 0 || this.x > width) {
+          this.dx *= -1
+        }
 
-        return {
-          size: parseInt(sizeSlider.value),
-          fillColor: colorInput.value,
-          strokeWeight: parseInt(strokeWeightSlider.value),
-          numBubbles: parseInt(numShapesInput.value), // Agrega el número de burbujas
-          originX: width / 2,
-          originY: height / 2,
-          type: ShapeType.value
+        if (this.y < 0 || this.y > height) {
+          this.dy *= -1
         }
       }
 
-      // P5.js functions
-      function setup() {
-        const canvas = createCanvas(800, 600)
-        canvas.parent('canvasContainer')
-        noFill()
-        setupUI() // Configuración de la interfaz de usuario
-        ShapeManager.commonAttributes = getCommonAttributes()
-        Shape.init(ShapeManager.commonAttributes)
-        createShapes()
+      display() {
+        stroke(255)
+        strokeWeight(Shape.strokeWeight)
+        fill(Shape.color)
+        ellipse(this.x, this.y, Shape.size * 2)
+      }
+    }
+
+    /** La clase Cuadrado extiende la clase Forma y representa una forma cuadrada que se puede actualizar y
+     *mostrar en un lienzo, ademnás de moverse por la pantalla y rebotar en los bordes.  */
+    class Square extends Shape {
+      x
+      y
+      constructor() {
+        super()
+        this.x = Shape.originX
+        this.y = Shape.originY
+        this.dx = random(-2, 2)
+        this.dy = random(-2, 2)
       }
 
-      function draw() {
-        background(0)
-        for (const shape of ShapeManager.shapesList) {
-          shape.update()
-          shape.display()
+      update() {
+        this.x += this.dx
+        this.y += this.dy
+
+        if (this.x < 0 || this.x > width) {
+          this.dx *= -1
+        }
+
+        if (this.y < 0 || this.y > height) {
+          this.dy *= -1
         }
       }
-    </script>
-  </body>
+
+      display() {
+        stroke(255)
+        strokeWeight(Shape.strokeWeight)
+        fill(Shape.color)
+        square(this.x, this.y, Shape.size * 2)
+      }
+    }
+
+    // Funciones del DOM (HTML)
+    /**
+     * La función `setupUI` configura detectores de eventos para detectar cambios en los controles de
+     * entrada y llama a la función `updateConfiguration` cuando se detecta un cambio.
+     */
+    function setupUI() {
+      const numShapesInput = document.getElementById('numShapesInput')
+      const sizeSlider = document.getElementById('sizeSlider')
+      const colorInput = document.getElementById('colorInput')
+      const strokeWeightSlider = document.getElementById('strokeWeightSlider')
+      const typeInput = document.getElementById('shapeType')
+      // Agregar eventos para detectar cambios en los controles de entrada
+      numShapesInput.addEventListener('input', updateConfiguration)
+      sizeSlider.addEventListener('input', updateConfiguration)
+      colorInput.addEventListener('input', updateConfiguration)
+      strokeWeightSlider.addEventListener('input', updateConfiguration)
+      typeInput.addEventListener('input', updateConfiguration)
+    }
+
+    /**
+     * La función "updateConfiguration" actualiza la configuración recuperando atributos comunes y creando las
+     * formas.
+     */
+    function updateConfiguration() {
+      ShapeManager.commonAttributes = getCommonAttributes()
+      ShapeManager.createShapes()
+    }
+
+    /**
+     * La función `getCommonAttributes` recupera los atributos comunes del HTML para crear formas, como tamaño,
+     * color, grosor del trazo, número de formas, coordenadas de origen y tipo de forma.
+     * @returns un objeto con las propiedades de los Shapes
+     */
+    function getCommonAttributes() {
+      const sizeSlider = document.getElementById('sizeSlider')
+      const colorInput = document.getElementById('colorInput')
+      const strokeWeightSlider = document.getElementById('strokeWeightSlider')
+      const numShapesInput = document.getElementById('numShapesInput')
+      const ShapeType = document.getElementById('shapeType')
+
+      document.getElementById('sizeValue').textContent = sizeSlider.value
+      document.getElementById('colorValue').textContent = colorInput.value
+      document.getElementById('strokeWeightValue').textContent =
+        strokeWeightSlider.value
+
+      return {
+        size: parseInt(sizeSlider.value),
+        fillColor: colorInput.value,
+        strokeWeight: parseInt(strokeWeightSlider.value),
+        numBubbles: parseInt(numShapesInput.value), // Agrega el número de burbujas
+        originX: width / 2,
+        originY: height / 2,
+        type: ShapeType.value
+      }
+    }
+
+    // P5.js functions
+    function setup() {
+      const canvas = createCanvas(800, 600)
+      canvas.parent('canvasContainer')
+      noFill()
+      setupUI() // Configuración de la interfaz de usuario
+      ShapeManager.commonAttributes = getCommonAttributes()
+      Shape.init(ShapeManager.commonAttributes)
+      ShapeManager.createShapes()
+    }
+
+    function draw() {
+      background(0)
+      for (const shape of ShapeManager.shapesList) {
+        shape.update()
+        shape.display()
+      }
+    }
+
+  </script>
+</body>
+
 </html>
