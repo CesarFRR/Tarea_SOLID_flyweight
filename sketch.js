@@ -4,9 +4,6 @@
 class ShapeManager {
   static shapesList = []
   static commonAttributes
-}
-/* La clase ShapeCreator crea una cantidad específica de formas según el tipo de forma. */
-class ShapeCreator {
   /**
    * La función crea un número específico de formas de acuerdo al tipo de forma
    */
@@ -137,7 +134,7 @@ class HtmlManager {
    */
   updateConfiguration() {
     ShapeManager.commonAttributes = this.getCommonAttributes();
-    ShapeCreator.createShapes();
+    ShapeManager.createShapes();
   }
 
   /**
@@ -168,9 +165,6 @@ class HtmlManager {
   }
 }
 
-
-
-
 // P5.js functions
 function setup() {
   const canvas = createCanvas(800, 600)
@@ -179,7 +173,7 @@ function setup() {
   const DOM = new HtmlManager(); // Configuración de la interfaz de usuario
   ShapeManager.commonAttributes = DOM.getCommonAttributes()
   Shape.init(ShapeManager.commonAttributes)
-  ShapeCreator.createShapes()
+  ShapeManager.createShapes()
 }
 
 function draw() {
